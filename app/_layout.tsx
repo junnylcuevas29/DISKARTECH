@@ -1,3 +1,5 @@
+import '../global.css';
+
 import { Colors } from '@/constants/colors';
 import { Stack } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';

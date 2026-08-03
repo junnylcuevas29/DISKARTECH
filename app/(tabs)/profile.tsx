@@ -93,9 +93,9 @@ export default function ProfileScreen() {
             style={[styles.menuItem, index === menuItems.length - 1 && styles.menuItemLast]}
             onPress={() => {
               if (item.route === '/auth/welcome') {
-                router.replace(item.route);
+                router.replace(item.route as any);
               } else if (item.route !== '#') {
-                router.push(item.route);
+                router.push(item.route as any);
               }
             }}
           >
