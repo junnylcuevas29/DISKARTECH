@@ -1,16 +1,20 @@
 import Avatar from '@/components/ui/Avatar';
 import { Colors } from '@/constants/colors';
 import { BorderRadius, Shadow, Spacing, Typography } from '@/constants/typography';
+import { employerConversations } from '@/data/employerMessages';
 import { conversations } from '@/data/messages';
 import { MaterialIcons } from '@expo/vector-icons';
 import { router, useLocalSearchParams } from 'expo-router';
 import React, { useState } from 'react';
-import { KeyboardAvoidingView, Platform, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { Alert, KeyboardAvoidingView, Platform, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 
 export default function ChatScreen() {
   const { id } = useLocalSearchParams();
   const [message, setMessage] = useState('');
-  const conversation = conversations.find((c) => c.id === id);
+  const [safetyMenuVisible, setSafetyMenuVisible] = useState(false);
+const conversation =
+    conversations.find((c) => c.id === id) ||
+    employerConversations.find((c) => c.id === id);
 
   if (!conversation) {
     return (
@@ -23,6 +27,49 @@ export default function ChatScreen() {
   const handleSend = () => {
     if (!message.trim()) return;
     setMessage('');
+  };
+
+  const handleReportUser = () => {
+    setSafetyMenuVisible(false);
+    setTimeout(() => {
+      Alert.alert(
+        'Report User',
+        'Report this user for suspicious, abusive, or scam behavior. Our team will review this report within 24 hours.', [
+        { text: 'Report as Scam', onPress: () => Alert.alert('Report Submitted', 'Thank you for keeping DiskarTech safe. Our team will review this report.') },
+        { text: 'Report as Abuse', onPress: () => Alert.alert('Report Submitted', 'Thank you for keeping DiskarTech safe. Our team will review this report.') },
+        { text: 'Report as Harassment', onPress: () => Alert.alert('Report Submitted', 'Thank you for keeping DiskarTech safe. Our team will review this report.') },
+        { text: 'Cancel', style: 'cancel' },
+      ]);
+    }, 250);
+  };
+
+  const handleBlockUser = () => {
+    setSafetyMenuVisible(false);
+    setTimeout(() => {
+      Alert.alert(
+        'Block User',
+        `Block ${conversation.senderName}? You will no longer receive messages from this user.`, [
+        { text: 'Block', style: 'destructive', onPress: () => Alert.alert('User Blocked', `${conversation.senderName} has been blocked.`) },
+        { text: 'Cancel', style: 'cancel' },
+      ]);
+    }, 250);
+  };
+
+  const handleEmergencyContact = () => {
+    setSafetyMenuVisible(false);
+    setTimeout(() => {
+      Alert.alert(
+        'Emergency Contact',
+        'Your emergency contact details are saved. In case of emergency during a job, contact your emergency contact or local authorities.', [
+        { text: 'Call 911', onPress: () => {} },
+        { text: 'Notify Emergency Contact', onPress: () => Alert.alert('Notification Sent', 'Your emergency contact has been notified with your live location.') },
+        { text: 'Close', style: 'cancel' },
+      ]);
+    }, 250);
+  };
+
+  const handleSendResume = () => {
+    Alert.alert('Resume Sent', 'Your resume has been sent to this employer.');
   };
 
   return (
@@ -41,10 +88,32 @@ export default function ChatScreen() {
           <Text style={styles.senderName}>{conversation.senderName}</Text>
           <Text style={styles.onlineStatus}>{conversation.online ? 'Online' : 'Offline'}</Text>
         </View>
-        <TouchableOpacity style={styles.moreBtn}>
+        <TouchableOpacity style={styles.moreBtn} onPress={() => setSafetyMenuVisible(!safetyMenuVisible)}>
           <MaterialIcons name="more-vert" size={24} color={Colors.text} />
         </TouchableOpacity>
       </View>
+
+      {/* Safety Menu */}
+      {safetyMenuVisible && (
+        <View style={styles.safetyMenu}>
+          <TouchableOpacity style={styles.safetyItem} onPress={handleReportUser}>
+            <MaterialIcons name="report" size={20} color={Colors.error} />
+            <Text style={styles.safetyItemText}>Report User</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.safetyItem} onPress={handleBlockUser}>
+            <MaterialIcons name="block" size={20} color={Colors.error} />
+            <Text style={styles.safetyItemText}>Block User</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.safetyItem} onPress={() => setSafetyMenuVisible(false)}>
+            <MaterialIcons name="sos" size={20} color={Colors.warning} />
+            <Text style={[styles.safetyItemText, { color: Colors.warning }]}>Report Unsafe Job</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.safetyItem} onPress={handleEmergencyContact}>
+            <MaterialIcons name="emergency" size={20} color={Colors.primary} />
+            <Text style={styles.safetyItemText}>Emergency Contact</Text>
+          </TouchableOpacity>
+        </View>
+      )}
 
       {/* Messages */}
       <ScrollView
@@ -138,6 +207,28 @@ const styles = StyleSheet.create({
   },
   moreBtn: {
     padding: Spacing.sm,
+  },
+  safetyMenu: {
+    position: 'absolute',
+    top: 84,
+    right: Spacing.md,
+    backgroundColor: Colors.white,
+    borderRadius: BorderRadius.lg,
+    padding: Spacing.xs,
+    zIndex: 10,
+    ...Shadow.md,
+    minWidth: 220,
+  },
+  safetyItem: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: Spacing.md,
+    padding: Spacing.md,
+  },
+  safetyItemText: {
+    ...Typography.bodySmall,
+    color: Colors.text,
+    fontWeight: '500',
   },
   messagesList: {
     flex: 1,

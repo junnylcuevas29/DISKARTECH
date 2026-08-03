@@ -209,28 +209,37 @@ app/
 ├── index.tsx                # Splash Screen
 ├── onboarding.tsx           # Onboarding Carousel
 ├── modal.tsx                # Generic Modal
-├── notifications.tsx        # Notifications Screen
-├── settings.tsx             # Settings Screen
-├── employer-dashboard.tsx   # Employer Dashboard (Standalone)
-├── job-posting.tsx          # Create Job Posting
-├── applicant-details.tsx    # Applicant Profile View
-├── verification-status.tsx  # Verification Progress
-├── chat.tsx                 # Chat Thread
-├── job-details.tsx          # Job Details
 │
-├── auth/
+├── auth/                    # 🔐 Authentication
 │   ├── welcome.tsx          # Welcome Page
 │   ├── login.tsx            # Login Form
 │   ├── register-student.tsx # Student Registration
 │   └── register-employer.tsx# Employer Registration
 │
-└── (tabs)/
-    ├── _layout.tsx          # Tab Navigator Layout
-    ├── home.tsx             # Student Dashboard (Home Tab)
-    ├── search.tsx           # Job Search Tab
-    ├── applications.tsx     # Applications Tab
-    ├── messages.tsx         # Messages Tab
-    └── profile.tsx          # Profile Tab
+├── student/                 # 👨🎓 Student App
+│   ├── job-details.tsx      # Job Details
+│   ├── apply-job.tsx        # Apply for Job
+│   ├── schedule.tsx         # Weekly Schedule
+│   ├── earnings.tsx         # My Earnings
+│   ├── reviews.tsx          # Rate Employer
+│   ├── verification-status.tsx # Verification Progress
+│   └── (tabs)/
+│       ├── _layout.tsx      # Tab Navigator Layout
+│       ├── home.tsx         # Student Dashboard (Home Tab)
+│       ├── search.tsx       # Job Search Tab
+│       ├── applications.tsx # Applications Tab
+│       ├── messages.tsx     # Messages Tab
+│       └── profile.tsx      # Profile Tab
+│
+├── employer/                # 🏢 Employer App
+│   ├── dashboard.tsx        # Employer Dashboard (Standalone)
+│   ├── job-posting.tsx      # Create Job Posting
+│   └── applicant-details.tsx# Applicant Profile View
+│
+└── common/                  # 🔗 Shared Screens
+    ├── chat.tsx             # Chat Thread
+    ├── notifications.tsx    # Notifications Screen
+    └── settings.tsx         # Settings Screen
 ```
 
 ---

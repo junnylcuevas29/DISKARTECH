@@ -27,19 +27,22 @@ export default function RootLayout() {
         <Stack.Screen name="auth/login" options={{ headerShown: false, animation: 'slide_from_right' }} />
         <Stack.Screen name="auth/register-student" options={{ headerShown: false, animation: 'slide_from_right' }} />
         <Stack.Screen name="auth/register-employer" options={{ headerShown: false, animation: 'slide_from_right' }} />
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        <Stack.Screen name="job-details" options={{ headerShown: false, animation: 'slide_from_right' }} />
-        <Stack.Screen name="chat" options={{ headerShown: false, animation: 'slide_from_right' }} />
-        <Stack.Screen name="notifications" options={{ headerShown: false, animation: 'slide_from_right' }} />
-        <Stack.Screen name="settings" options={{ headerShown: false, animation: 'slide_from_right' }} />
-        <Stack.Screen name="employer-dashboard" options={{ headerShown: false, animation: 'slide_from_right' }} />
-        <Stack.Screen name="job-posting" options={{ headerShown: false, animation: 'slide_from_right' }} />
-        <Stack.Screen name="applicant-details" options={{ headerShown: false, animation: 'slide_from_right' }} />
-        <Stack.Screen name="verification-status" options={{ headerShown: false, animation: 'slide_from_right' }} />
-        <Stack.Screen name="schedule" options={{ headerShown: false, animation: 'slide_from_right' }} />
-        <Stack.Screen name="earnings" options={{ headerShown: false, animation: 'slide_from_right' }} />
-        <Stack.Screen name="reviews" options={{ headerShown: false, animation: 'slide_from_right' }} />
-        <Stack.Screen name="apply-job" options={{ headerShown: false, animation: 'slide_from_right' }} />
+        <Stack.Screen name="student/(tabs)" options={{ headerShown: false }} />
+        <Stack.Screen name="student/job-details" options={{ headerShown: false, animation: 'slide_from_right' }} />
+        <Stack.Screen name="student/apply-job" options={{ headerShown: false, animation: 'slide_from_right' }} />
+        <Stack.Screen name="student/schedule" options={{ headerShown: false, animation: 'slide_from_right' }} />
+        <Stack.Screen name="student/earnings" options={{ headerShown: false, animation: 'slide_from_right' }} />
+        <Stack.Screen name="student/reviews" options={{ headerShown: false, animation: 'slide_from_right' }} />
+        <Stack.Screen name="student/verification-status" options={{ headerShown: false, animation: 'slide_from_right' }} />
+        <Stack.Screen name="student/edit-profile" options={{ headerShown: false, animation: 'slide_from_right' }} />
+<Stack.Screen name="employer/(tabs)" options={{ headerShown: false }} />
+        <Stack.Screen name="employer/dashboard" options={{ headerShown: false, animation: 'slide_from_right' }} />
+        <Stack.Screen name="employer/job-posting" options={{ headerShown: false, animation: 'slide_from_right' }} />
+        <Stack.Screen name="employer/applicant-details" options={{ headerShown: false, animation: 'slide_from_right' }} />
+        <Stack.Screen name="employer/edit-profile" options={{ headerShown: false, animation: 'slide_from_right' }} />
+        <Stack.Screen name="common/chat" options={{ headerShown: false, animation: 'slide_from_right' }} />
+        <Stack.Screen name="common/notifications" options={{ headerShown: false, animation: 'slide_from_right' }} />
+        <Stack.Screen name="common/settings" options={{ headerShown: false, animation: 'slide_from_right' }} />
         <Stack.Screen name="modal" options={{ presentation: 'modal', headerShown: false }} />
       </Stack>
     </>

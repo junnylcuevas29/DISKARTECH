@@ -52,9 +52,15 @@ DiskarTech/
 ├── app/                    # Screens (file-based routing)
 │   ├── index.tsx           # Splash screen
 │   ├── onboarding.tsx      # Onboarding slides
+│   ├── modal.tsx           # Generic modal
 │   ├── auth/               # Welcome / Login / Registration
-│   ├── (tabs)/             # Home / Search / Applications / Messages / Profile
-│   └── ...                 # Job details, chat, notifications, settings, employer screens
+│   ├── student/            # 👨🎓 All student screens
+│   │   ├── (tabs)/         # Home / Search / Applications / Messages / Profile
+│   │   └── ...             # job-details, apply-job, schedule, earnings, reviews, verification
+│   ├── employer/           # 🏢 All employer screens
+│   │   └── ...             # dashboard, job-posting, applicant-details
+│   └── common/             # 🔗 Shared screens
+│       └── ...             # chat, notifications, settings
 ├── components/
 │   └── ui/                 # Reusable components (buttons, cards, inputs, badges...)
 ├── constants/              # Colors & typography tokens

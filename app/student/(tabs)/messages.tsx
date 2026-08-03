@@ -8,7 +8,7 @@ import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-nati
 
 export default function MessagesScreen() {
   const handleConversationPress = (conversationId: string) => {
-    router.push(`/chat?id=${conversationId}`);
+    router.push(`/common/chat?id=${conversationId}`);
   };
 
   return (

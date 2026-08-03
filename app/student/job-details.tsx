@@ -5,13 +5,14 @@ import { BorderRadius, Shadow, Spacing, Typography } from '@/constants/typograph
 import { jobs } from '@/data/jobs';
 import { MaterialIcons } from '@expo/vector-icons';
 import { router, useLocalSearchParams } from 'expo-router';
-import React from 'react';
+import React, { useState } from 'react';
 import { Dimensions, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 const { width } = Dimensions.get('window');
 
 export default function JobDetailsScreen() {
   const { id } = useLocalSearchParams();
+  const [saved, setSaved] = useState(false);
   const job = jobs.find((j) => j.id === id);
 
   if (!job) {
@@ -21,6 +22,8 @@ export default function JobDetailsScreen() {
       </View>
     );
   }
+
+  const employerRating = job.id === '5' ? 4.8 : job.verified ? 4.5 : 3.8;
 
   return (
     <View style={styles.container}>
@@ -51,15 +54,34 @@ export default function JobDetailsScreen() {
                   <MaterialIcons name="verified" size={18} color={Colors.verified} />
                 )}
               </View>
+              <View style={styles.ratingRow}>
+                {[1, 2, 3, 4, 5].map((i) => (
+                  <MaterialIcons
+                    key={i}
+                    name={i <= Math.floor(employerRating) ? 'star' : i - 0.5 <= employerRating ? 'star-half' : 'star-border'}
+                    size={16}
+                    color="#FFB300"
+                  />
+                ))}
+                <Text style={styles.ratingText}>{employerRating} Employer Rating</Text>
+              </View>
             </View>
-            <TouchableOpacity style={styles.bookmarkBtn}>
+            <TouchableOpacity onPress={() => setSaved(!saved)} style={styles.bookmarkBtn}>
               <MaterialIcons
-                name={job.bookmarked ? 'bookmark' : 'bookmark-border'}
+                name={saved ? 'bookmark' : 'bookmark-border'}
                 size={28}
-                color={job.bookmarked ? Colors.bookmark : Colors.gray400}
+                color={saved ? Colors.bookmark : Colors.gray400}
               />
             </TouchableOpacity>
           </View>
+
+          {/* Verification Badge */}
+          {job.verified && (
+            <View style={styles.verificationBadge}>
+              <MaterialIcons name="verified-user" size={20} color={Colors.verified} />
+              <Text style={styles.verificationText}>Verified Employer</Text>
+            </View>
+          )}
 
           {/* Salary & Info */}
           <View style={styles.infoCards}>
@@ -131,10 +153,21 @@ export default function JobDetailsScreen() {
           <View style={styles.section}>
             <Text style={styles.sectionTitle}>About the Employer</Text>
             <View style={styles.employerCard}>
+              <View style={styles.employerAvatar}>
+                <Text style={styles.employerAvatarText}>{job.employerInfo.name.charAt(0)}</Text>
+              </View>
               <View style={styles.employerInfo}>
-                <Text style={styles.employerName}>{job.employerInfo.name}</Text>
+                <View style={styles.employerNameRow}>
+                  <Text style={styles.employerName}>{job.employerInfo.name}</Text>
+                  {job.verified && <MaterialIcons name="verified" size={16} color={Colors.verified} />}
+                </View>
+                <Text style={styles.employerDetail}>{job.employerInfo.businessType}</Text>
                 <Text style={styles.employerDetail}>{job.employerInfo.email}</Text>
                 <Text style={styles.employerDetail}>{job.employerInfo.phone}</Text>
+                <View style={styles.employerRatingRow}>
+                  <MaterialIcons name="star" size={14} color="#FFB300" />
+                  <Text style={styles.employerRatingText}>{employerRating} • {job.applicants} applicants</Text>
+                </View>
               </View>
             </View>
           </View>
@@ -147,12 +180,28 @@ export default function JobDetailsScreen() {
           <Text style={styles.salaryInfoLabel}>Salary</Text>
           <Text style={styles.salaryInfoValue}>{job.salary}</Text>
         </View>
-        <PrimaryButton
-          title="Apply Now"
-          onPress={() => {}}
-          size="medium"
-          style={{ flex: 1, marginLeft: Spacing.md }}
-        />
+        <View style={styles.bottomActions}>
+          <TouchableOpacity
+            style={[styles.saveBtn, saved && styles.saveBtnActive]}
+            onPress={() => setSaved(!saved)}
+          >
+            <MaterialIcons name={saved ? 'bookmark' : 'bookmark-border'} size={22} color={saved ? Colors.white : Colors.primary} />
+            <Text style={[styles.saveBtnText, saved && styles.saveBtnTextActive]}>{saved ? 'SAVED' : 'SAVE JOB'}</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.messageBtn}
+            onPress={() => router.push('/common/chat?id=1')}
+          >
+            <MaterialIcons name="chat" size={20} color={Colors.primary} />
+            <Text style={styles.messageBtnText}>MESSAGE</Text>
+          </TouchableOpacity>
+          <PrimaryButton
+            title="APPLY NOW"
+            onPress={() => router.push(`/student/apply-job?id=${job.id}`)}
+            size="small"
+            style={{ flex: 1, marginLeft: Spacing.sm }}
+          />
+        </View>
       </View>
     </View>
   );
@@ -231,8 +280,36 @@ const styles = StyleSheet.create({
     ...Typography.body,
     color: Colors.textSecondary,
   },
+  ratingRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 2,
+    marginTop: 6,
+  },
+  ratingText: {
+    ...Typography.caption,
+    color: Colors.textSecondary,
+    marginLeft: 4,
+    fontWeight: '500',
+  },
   bookmarkBtn: {
     padding: Spacing.sm,
+  },
+  verificationBadge: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    alignSelf: 'flex-start',
+    gap: 6,
+    backgroundColor: Colors.success + '10',
+    borderRadius: BorderRadius.full,
+    paddingHorizontal: Spacing.md,
+    paddingVertical: 6,
+    marginBottom: Spacing.md,
+  },
+  verificationText: {
+    ...Typography.bodySmall,
+    color: Colors.success,
+    fontWeight: '600',
   },
   infoCards: {
     flexDirection: 'row',
@@ -319,26 +396,52 @@ const styles = StyleSheet.create({
   },
   employerCard: {
     flexDirection: 'row',
-    alignItems: 'center',
+    alignItems: 'flex-start',
     gap: Spacing.md,
+  },
+  employerAvatar: {
+    width: 52,
+    height: 52,
+    borderRadius: 26,
+    backgroundColor: Colors.primary + '15',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  employerAvatarText: {
+    ...Typography.h4,
+    color: Colors.primary,
+    fontWeight: '700',
   },
   employerInfo: {
     flex: 1,
+  },
+  employerNameRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 4,
   },
   employerName: {
     ...Typography.body,
     fontWeight: '600',
     color: Colors.text,
-    marginBottom: 4,
+    marginBottom: 2,
   },
   employerDetail: {
     ...Typography.bodySmall,
     color: Colors.textSecondary,
     marginBottom: 2,
   },
-  bottomBar: {
+  employerRatingRow: {
     flexDirection: 'row',
     alignItems: 'center',
+    gap: 4,
+    marginTop: 4,
+  },
+  employerRatingText: {
+    ...Typography.caption,
+    color: Colors.textSecondary,
+  },
+  bottomBar: {
     paddingHorizontal: Spacing.lg,
     paddingVertical: Spacing.md,
     backgroundColor: Colors.white,
@@ -346,7 +449,7 @@ const styles = StyleSheet.create({
     borderTopColor: Colors.gray100,
   },
   salaryInfo: {
-    marginRight: Spacing.sm,
+    marginBottom: Spacing.sm,
   },
   salaryInfoLabel: {
     ...Typography.caption,
@@ -356,5 +459,50 @@ const styles = StyleSheet.create({
     ...Typography.h5,
     color: Colors.primary,
   },
+  bottomActions: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: Spacing.sm,
+  },
+  saveBtn: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 4,
+    borderWidth: 1.5,
+    borderColor: Colors.primary,
+    borderRadius: BorderRadius.md,
+    paddingVertical: 10,
+    paddingHorizontal: Spacing.md,
+  },
+  saveBtnActive: {
+    backgroundColor: Colors.primary,
+    borderColor: Colors.primary,
+  },
+  saveBtnText: {
+    ...Typography.caption,
+    color: Colors.primary,
+    fontWeight: '700',
+    fontSize: 11,
+  },
+  saveBtnTextActive: {
+    color: Colors.white,
+  },
+  messageBtn: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 4,
+    borderWidth: 1.5,
+    borderColor: Colors.primary,
+    borderRadius: BorderRadius.md,
+    paddingVertical: 10,
+    paddingHorizontal: Spacing.md,
+  },
+  messageBtnText: {
+    ...Typography.caption,
+    color: Colors.primary,
+    fontWeight: '700',
+    fontSize: 11,
+  },
 });
-

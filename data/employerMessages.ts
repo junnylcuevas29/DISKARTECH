@@ -1,0 +1,76 @@
+import { Message } from '@/types';
+
+export const employerConversations: Message[] = [
+  {
+    id: 'e1',
+    senderId: 'stu1',
+    senderName: 'Junnyl Mabini',
+    senderAvatar: 'https://ui-avatars.com/api/?name=Junnyl+Mabini&background=D32F2F&color=fff&size=200',
+    lastMessage: 'Hi! I can start this weekend. Thank you!',
+    timestamp: '2 min ago',
+    unread: true,
+    online: true,
+    messages: [
+      { id: 'm1', text: 'Hi! Thank you for applying to our Service Crew position.', sender: 'me', timestamp: '10:30 AM' },
+      { id: 'm2', text: 'Thank you sir! I\'m excited about the opportunity.', sender: 'them', timestamp: '10:32 AM' },
+      { id: 'm3', text: 'We\'ve reviewed your application and we\'re impressed!', sender: 'me', timestamp: '10:33 AM' },
+      { id: 'm4', text: 'Hi! I can start this weekend. Thank you!', sender: 'them', timestamp: '10:34 AM' },
+    ],
+  },
+  {
+    id: 'e2',
+    senderId: 'stu2',
+    senderName: 'Ana Santos',
+    senderAvatar: 'https://ui-avatars.com/api/?name=Ana+Santos&background=00704A&color=fff&size=200',
+    lastMessage: 'I confirm the interview schedule on Friday at 2PM.',
+    timestamp: '1 hour ago',
+    unread: true,
+    online: true,
+    messages: [
+      { id: 'm5', text: 'Hello! Would you be available for an interview this Friday?', sender: 'me', timestamp: '9:00 AM' },
+      { id: 'm6', text: 'I confirm the interview schedule on Friday at 2PM.', sender: 'them', timestamp: '9:01 AM' },
+    ],
+  },
+  {
+    id: 'e3',
+    senderId: 'stu3',
+    senderName: 'Carlos Reyes',
+    senderAvatar: 'https://ui-avatars.com/api/?name=Carlos+Reyes&background=00B14D&color=fff&size=200',
+    lastMessage: 'Here is my updated resume for the position.',
+    timestamp: '3 hours ago',
+    unread: false,
+    online: false,
+    messages: [
+      { id: 'm7', text: 'Could you send your updated resume?', sender: 'me', timestamp: 'Yesterday' },
+      { id: 'm8', text: 'Here is my updated resume for the position.', sender: 'them', timestamp: '3 hours ago' },
+    ],
+  },
+  {
+    id: 'e4',
+    senderId: 'stu4',
+    senderName: 'Maria Santos',
+    senderAvatar: 'https://ui-avatars.com/api/?name=Maria+Santos&background=4CAF50&color=fff&size=200',
+    lastMessage: 'Thank you for accepting my application!',
+    timestamp: '1 day ago',
+    unread: false,
+    online: true,
+    messages: [
+      { id: 'm9', text: 'Congratulations! You\'ve been accepted as our Cashier.', sender: 'me', timestamp: '1 day ago' },
+      { id: 'm10', text: 'Thank you for accepting my application!', sender: 'them', timestamp: '1 day ago' },
+    ],
+  },
+  {
+    id: 'e5',
+    senderId: 'stu5',
+    senderName: 'Juan Dela Cruz',
+    senderAvatar: 'https://ui-avatars.com/api/?name=Juan+Dela+Cruz&background=FF0000&color=fff&size=200',
+    lastMessage: 'I can teach Math and Science after 6PM.',
+    timestamp: '2 days ago',
+    unread: false,
+    online: false,
+    messages: [
+      { id: 'm11', text: 'We have a tutoring position available. Are you interested?', sender: 'me', timestamp: '2 days ago' },
+      { id: 'm12', text: 'I can teach Math and Science after 6PM.', sender: 'them', timestamp: '2 days ago' },
+    ],
+  },
+];

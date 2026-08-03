@@ -24,7 +24,7 @@ export default function WelcomeScreen() {
           </View>
           <Text className="text-white text-4xl font-extrabold tracking-wider">DiskarTech</Text>
           <Text className="text-white/90 text-base italic mt-1 text-center max-w-[88%]">
-            Smart Jobs for Smart Students
+            Smart Matching Jobs for Students
           </Text>
         </LinearGradient>
 

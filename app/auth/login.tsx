@@ -27,9 +27,9 @@ export default function LoginScreen() {
 
   const handleLogin = () => {
     if (type === 'employer') {
-      router.replace('/employer-dashboard');
+router.replace('/employer/dashboard');
     } else {
-      router.replace('/(tabs)/home');
+router.replace('/student/(tabs)/home');
     }
   };
 

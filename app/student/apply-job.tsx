@@ -5,7 +5,7 @@ import { BorderRadius, Spacing, Typography } from '@/constants/typography';
 import { MaterialIcons } from '@expo/vector-icons';
 import { router, useLocalSearchParams } from 'expo-router';
 import React, { useState } from 'react';
-import { KeyboardAvoidingView, Platform, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { Alert, KeyboardAvoidingView, Platform, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 
 export default function ApplyJobScreen() {
   const { id } = useLocalSearchParams();
@@ -62,7 +62,12 @@ export default function ApplyJobScreen() {
           <Text style={styles.confirmText}>By submitting, you confirm that all information provided is accurate and you agree to our terms.</Text>
         </View>
 
-        <PrimaryButton title="Submit Application" onPress={() => router.back()} size="large" icon={<MaterialIcons name="send" size={20} color={Colors.white} />} style={{ marginTop: Spacing.md }} />
+        <PrimaryButton title="Submit Application" onPress={() => {
+          Alert.alert('Application Sent ✅', 'Your application has been submitted. You can track its status in the Applications tab.', [
+            { text: 'View Applications', onPress: () => router.replace('/student/(tabs)/applications') },
+            { text: 'OK', style: 'cancel' },
+          ]);
+        }} size="large" icon={<MaterialIcons name="send" size={20} color={Colors.white} />} style={{ marginTop: Spacing.md }} />
       </ScrollView>
     </KeyboardAvoidingView>
   );
